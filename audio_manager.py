@@ -44,6 +44,16 @@ class AudioManager:
             "item_get": "item_acquire.wav"
         }
 
+        # BGM mapping for dimensions and battles
+        self.bgm_tracks = {
+            "start": "title_theme.mp3",
+            "Bayan ng Diwata": "diwata_forest.mp3",
+            "Lawa ng Walang Hanggan": "lake_theme.mp3",
+            "The Convergence": "final_area.mp3",
+            "boss_battle": "boss_battle.mp3",
+            "victory": "victory.mp3"
+        }
+
     def play_bgm(self, track_name):
         """Play background music with automatic looping"""
         if track_name in self.bgm:

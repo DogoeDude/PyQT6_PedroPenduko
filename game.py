@@ -8,6 +8,7 @@ from story_content import story_content, StoryNode
 from audio_manager import AudioManager
 from player import Player
 from combat_manager import CombatManager
+import random
 
 class StoryGame(QMainWindow):
     def __init__(self):
@@ -21,9 +22,65 @@ class StoryGame(QMainWindow):
         self.text_animation_speed = 50
         self.is_animating = False
         
+        # Define background image sets FIRST
+        self.backgrounds = {
+            'forest': [
+                "diwata_forest.jpg",
+                "forest_structures.jpg",
+                "sacred_grove.jpg",
+                "unstable_forest.jpg"
+            ],
+            'lake': [
+                "lawa_background.jpg",
+                "chaos_energy.jpg"
+            ],
+            'ritual': [
+                "ritual_clearing.jpg",
+                "prophecy_chamber.jpg"
+            ],
+            'village': [
+                "diwata_village.jpg",
+                "ancestral_memories.jpg"
+            ],
+            'final': [
+                "bulkan_background.jpg",
+                "patay_background.jpg"
+            ],
+            'main': [
+                "start.jpg",
+                "intro_background.jpg"
+            ],
+            'tech': [
+                "magical_terminal.jpg",
+                "terminal_active.jpg",
+                "digital_awakening.jpg"
+            ],
+            # Numbered backgrounds for rotation
+            'numbered': [
+                "n1.jpg", "n2.jpg", "n3.jpg", "n4.jpg", "n5.jpg",
+                "n6.jpg", "n7.jpg", "n8.jpg", "n9.jpg", "n10.jpg"
+            ]
+        }
+        
+        # Boss battle backgrounds
+        self.boss_backgrounds = {
+            "Engkanto Twins": "engkanto_twins.jpg",
+            "Guardian of the Abyss": "dimensional_patterns.jpg",
+            "Corrupted Dilim": "chaos_energy.jpg",
+            "Molten Tikbalang": "molten_tikbalang.jpg"
+        }
+        
         # Image handling
         self.image_folder = "images"
-        self.default_image = "default_background.jpg"
+        self.image_folders = {
+            "main": os.path.join(self.image_folder, "main"),
+            "forest": os.path.join(self.image_folder, "forest"),
+            "lake": os.path.join(self.image_folder, "lake"),
+            "final": os.path.join(self.image_folder, "final"),
+            "ui": os.path.join(self.image_folder, "ui"),
+            "root": self.image_folder  # Add root folder for direct images
+        }
+        self.default_image = "ancestral_memories.jpg"
         
         # Initialize audio manager
         self.audio = AudioManager()
@@ -41,6 +98,22 @@ class StoryGame(QMainWindow):
         self.story_content = story_content
         self.current_node = "start"
         self.story_history = []
+        
+        # Create image folders if they don't exist
+        for folder in self.image_folders.values():
+            os.makedirs(folder, exist_ok=True)
+        
+        # Define training nodes
+        self.training_nodes = {
+            "power_strike_training",
+            "defense_training",
+            "magic_practice",
+            "code_magic",
+            "time_mastery",
+            "skill_mastery",
+            "combat_basics",
+            "magic_basics"
+        }
         
         # Start the game
         self.show_current_scene()
@@ -130,11 +203,26 @@ class StoryGame(QMainWindow):
             }
         """)
         
+        # Add potion buttons
+        potion_layout = QHBoxLayout()
+        self.minor_potion_btn = QPushButton("Use Minor Potion")
+        self.major_potion_btn = QPushButton("Use Major Potion")
+        self.full_potion_btn = QPushButton("Use Full Potion")
+        
+        self.minor_potion_btn.clicked.connect(lambda: self.use_potion("Minor Healing Potion"))
+        self.major_potion_btn.clicked.connect(lambda: self.use_potion("Major Healing Potion"))
+        self.full_potion_btn.clicked.connect(lambda: self.use_potion("Full Restore Potion"))
+        
+        potion_layout.addWidget(self.minor_potion_btn)
+        potion_layout.addWidget(self.major_potion_btn)
+        potion_layout.addWidget(self.full_potion_btn)
+        
         # Combine layouts
         main_layout.addLayout(stack_layout)
         main_layout.addLayout(button_layout)
         main_layout.addLayout(control_layout)
         main_layout.addWidget(self.stats_frame)
+        main_layout.addLayout(potion_layout)
         
         # Style buttons
         self.style_buttons()
@@ -170,30 +258,54 @@ class StoryGame(QMainWindow):
         return pixmap
 
     def show_current_scene(self):
-        node = self.story_content[self.current_node]
+        """Display the current story node"""
+        current_node = self.story_content[self.current_node]
+        
+        # Get background path and load image
+        bg_path = self.get_background(current_node.background)
+        full_path = os.path.join(self.image_folder, bg_path)
+        
+        print(f"Attempting to load image: {full_path}")  # Debug print
+        
+        if os.path.exists(full_path):
+            pixmap = QPixmap(full_path)
+            if not pixmap.isNull():
+                self.background_label.setPixmap(pixmap)
+            else:
+                print(f"Error: Could not load image: {full_path}")
+                # Try to load default background
+                default_path = os.path.join(self.image_folder, self.default_image)
+                if os.path.exists(default_path):
+                    self.background_label.setPixmap(QPixmap(default_path))
+                else:
+                    print(f"Error: Default image not found: {default_path}")
+        else:
+            print(f"Warning: Image not found: {full_path}")
+            # Try to load default background
+            default_path = os.path.join(self.image_folder, self.default_image)
+            if os.path.exists(default_path):
+                self.background_label.setPixmap(QPixmap(default_path))
+            else:
+                print(f"Error: Default image not found: {default_path}")
         
         # Enhanced music selection based on scene context
-        if hasattr(node, 'boss') and node.boss:
+        if hasattr(current_node, 'boss') and current_node.boss:
             self.audio.play_bgm("boss_battle")
-        elif "battle" in node.text.lower() or "combat" in node.text.lower():
+        elif "battle" in current_node.text.lower() or "combat" in current_node.text.lower():
             self.audio.play_bgm("battle")
-        elif "victory" in node.text.lower() or "success" in node.text.lower():
+        elif "victory" in current_node.text.lower() or "success" in current_node.text.lower():
             self.audio.play_bgm("victory")
-        elif node.dimension == "Bayan ng Diwata":
+        elif current_node.dimension == "Bayan ng Diwata":
             self.audio.play_bgm("diwata_forest")
         elif self.current_node == "start":
             self.audio.play_bgm("main_menu")
         else:
             self.audio.play_bgm("forest")
         
-        # Update background
-        pixmap = self.load_image(node.background)
-        self.background_label.setPixmap(pixmap)
-        
         # Update choices
-        if node.choices:
-            self.left_button.setText(node.choices[0][0])
-            self.right_button.setText(node.choices[1][0])
+        if current_node.choices:
+            self.left_button.setText(current_node.choices[0][0])
+            self.right_button.setText(current_node.choices[1][0])
             self.left_button.setEnabled(True)
             self.right_button.setEnabled(True)
         else:
@@ -201,7 +313,7 @@ class StoryGame(QMainWindow):
             self.right_button.setEnabled(False)
         
         # Start text animation
-        self.animate_text(node.text)
+        self.animate_text(current_node.text)
 
     def style_buttons(self):
         button_style = """
@@ -255,7 +367,47 @@ class StoryGame(QMainWindow):
             self.text_display.setText(self.full_text)
             self.is_animating = False
 
-    def make_choice(self, choice_index):
+    def check_boss_readiness(self, boss_name: str) -> bool:
+        """Check if player is ready for a boss fight"""
+        min_levels = {
+            "Engkanto Twins": 1,    # Starting boss
+            "Guardian of the Abyss": 3,
+            "Corrupted Dilim": 5
+        }
+        return self.player.stats.level >= min_levels.get(boss_name, 1)
+
+    def proceed_to_node(self, next_node: str):
+        """Handle proceeding to the next story node"""
+        current_node = self.story_content[self.current_node]
+        
+        # Save current node to history unless it's a training node
+        if self.current_node not in self.training_nodes:
+            self.story_history.append(self.current_node)
+        
+        # Check if entering combat with warning
+        if hasattr(current_node, 'boss') and current_node.boss:
+            if not self.check_boss_readiness(current_node.boss):
+                warning_text = f"Warning: {current_node.boss} is very powerful. Defeat may be certain at your current level."
+                self.text_display.setText(warning_text)
+                
+            if current_node.boss in self.player.defeated_bosses:
+                # Skip directly to aftermath if boss was already defeated
+                self.current_node = next_node
+                self.show_current_scene()
+            else:
+                # Start combat
+                combat_text = self.combat.start_combat(current_node.boss)
+                self.update_combat_ui(combat_text)
+                self.left_button.setText("Attack")
+                self.right_button.setText("Defend")
+                self.audio.play_bgm("boss_battle")
+        else:
+            # Normal story progression
+            self.current_node = next_node
+            self.show_current_scene()
+
+    def make_choice(self, choice_idx):
+        """Handle player choice"""
         if self.is_animating:
             self.skip_animation()
             return
@@ -263,18 +415,45 @@ class StoryGame(QMainWindow):
         self.audio.play_sfx("button_click")
         current_node = self.story_content[self.current_node]
         
-        if current_node.choices:
-            self.story_history.append(self.current_node)
-            next_node = current_node.choices[choice_index][1]
-            
-            # Check if entering combat
-            if hasattr(current_node, 'boss') and current_node.boss:
-                combat_text = self.combat.start_combat(current_node.boss)
+        # Check if we're in combat
+        if hasattr(current_node, 'boss') and current_node.boss and self.combat.current_enemy:
+            # Combat handling code
+            if choice_idx == 0:  # Attack
+                combat_text = self.combat.player_attack()
+                if self.combat.current_enemy and self.combat.current_enemy.hp > 0:
+                    # Enemy still alive, counter-attack
+                    combat_text += "\n" + self.combat.enemy_attack()
                 self.update_combat_ui(combat_text)
-                self.audio.play_bgm("boss_battle")
-            else:
-                self.current_node = next_node
-                self.show_current_scene()
+                
+                # Update combat buttons
+                self.left_button.setText("Attack")
+                self.right_button.setText("Defend")
+            else:  # Defend
+                # Defend action reduces damage
+                self.player.stats.defense += 5  # Temporary defense boost
+                combat_text = self.combat.enemy_attack()
+                self.player.stats.defense -= 5  # Remove temporary defense
+                self.update_combat_ui(combat_text)
+            return
+            
+        # Check if this is a training node and apply effects
+        if self.current_node in self.training_nodes:
+            # Apply training effect first
+            training_message = self.player.apply_training_effect(self.current_node)
+            
+            # Show training message briefly
+            self.text_display.setText(training_message)
+            self.update_stats_display()
+            
+            # Then proceed to next node after delay
+            next_node = current_node.choices[choice_idx][1]
+            QTimer.singleShot(1500, lambda: self.proceed_to_node(next_node))
+            return
+            
+        # Normal story progression
+        if choice_idx < len(current_node.choices):
+            next_node = current_node.choices[choice_idx][1]
+            self.proceed_to_node(next_node)
 
     def go_back(self):
         if self.story_history:
@@ -284,9 +463,12 @@ class StoryGame(QMainWindow):
     def handle_victory(self):
         """Handle victory scenario with appropriate music"""
         self.audio.play_bgm("victory")
+        # Record the defeated boss
+        if self.combat.current_enemy:
+            self.player.defeated_bosses.add(self.combat.current_enemy.name)
         # After 2:37, switch back to appropriate background music
-        QTimer.singleShot(157000, lambda: self.return_to_ambient_music())  # 157000ms = 2:37
-        
+        QTimer.singleShot(157000, lambda: self.return_to_ambient_music())
+
     def return_to_ambient_music(self):
         """Return to appropriate background music after victory"""
         node = self.story_content[self.current_node]
@@ -302,13 +484,24 @@ class StoryGame(QMainWindow):
         self.exp_label.setText(f"EXP: {self.player.stats.exp}/{self.player.stats.exp_to_next}")
 
     def update_combat_ui(self, combat_text: str):
-        """Update UI after combat actions"""
+        """Update UI during combat"""
         self.text_display.setText(combat_text)
         self.update_stats_display()
         
-        # Check if player died
-        if self.player.stats.hp <= 0:
+        # Check for victory or death
+        if self.combat.current_enemy and self.combat.current_enemy.hp <= 0:
+            victory_text = self.handle_victory()
+            self.text_display.setText(victory_text)
+            self.proceed_after_combat()
+        elif self.player.stats.hp <= 0:
             self.handle_player_death()
+
+    def proceed_after_combat(self):
+        """Proceed to next story node after combat"""
+        self.current_node = self.story_content[self.current_node].choices[0][1]
+        self.show_current_scene()
+        # Return to appropriate background music
+        self.return_to_ambient_music()
 
     def handle_player_death(self):
         """Handle what happens when player dies"""
@@ -334,6 +527,39 @@ class StoryGame(QMainWindow):
         self.back_button.setText("Back")
         self.back_button.clicked.disconnect()
         self.back_button.clicked.connect(self.go_back)
+
+    def use_potion(self, potion_type: str):
+        """Handle potion usage during combat"""
+        success, message = self.player.use_potion(potion_type)
+        if success:
+            self.text_display.setText(message)
+            self.update_stats_display()
+            # Enemy still gets their turn after potion use
+            enemy_message = self.combat.enemy_attack()
+            self.text_display.setText(f"{message}\n{enemy_message}")
+            self.update_stats_display()
+
+    def get_background(self, path: str) -> str:
+        """Get appropriate background image, with rotation"""
+        # If it's a direct image reference, use it
+        if path.endswith('.jpg'):
+            return path
+            
+        # For boss battles
+        if path.startswith('boss/'):
+            boss_name = path.split('/')[1]
+            return self.boss_backgrounds.get(boss_name, self.default_image)
+            
+        # For area-based backgrounds, rotate through appropriate set
+        area = path.split('/')[0]  # Get area (forest, lake, etc)
+        if area in self.backgrounds:
+            return random.choice(self.backgrounds[area])
+            
+        # For special scenes, use numbered backgrounds
+        if path.startswith('special/'):
+            return random.choice(self.backgrounds['numbered'])
+            
+        return self.default_image
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
