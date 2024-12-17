@@ -1,0 +1,1 @@
+# PyQT6_PedroPenduko
