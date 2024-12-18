@@ -18,7 +18,7 @@ story_content = {
             ("Enter Diwata Forest", "sacred_grove"),
             ("Prepare first", "initial_preparation")
         ],
-        background="intro_background.jpg"
+        background="main"
     ),
 
     # First Dimension - Bayan ng Diwata
@@ -28,8 +28,7 @@ story_content = {
             ("Explore grove", "grove_exploration"),
             ("Study surroundings", "forest_study")
         ],
-        background="sacred_grove.jpg",
-        dimension="Bayan ng Diwata"
+        background="forest"
     ),
 
     "grove_exploration": StoryNode(
@@ -38,7 +37,7 @@ story_content = {
             ("Investigate structures", "tech_study"),
             ("Follow the humming", "energy_trace")
         ],
-        background="forest_structures.jpg"
+        background="forest"
     ),
 
     "tech_study": StoryNode(
@@ -47,7 +46,7 @@ story_content = {
             ("Test systems", "system_test"),
             ("Return to grove", "grove_exploration")
         ],
-        background="magical_terminal.jpg"
+        background="tech"
     ),
 
     "energy_trace": StoryNode(
@@ -56,7 +55,7 @@ story_content = {
             ("Track source", "twin_search"),
             ("Study energy", "energy_study")
         ],
-        background="energy_trail.jpg"
+        background="forest"
     ),
 
     "forest_study": StoryNode(
@@ -65,7 +64,7 @@ story_content = {
             ("Learn tech-magic", "magic_study"),
             ("Track twins", "twin_search")
         ],
-        background="forest_study.jpg"
+        background="forest"
     ),
 
     "magic_study": StoryNode(
@@ -74,7 +73,7 @@ story_content = {
             ("Practice magic", "magic_practice"),
             ("Track twins", "twin_search")
         ],
-        background="magic_study.jpg"
+        background="tech"
     ),
 
     "twin_search": StoryNode(
@@ -83,7 +82,7 @@ story_content = {
             ("Confront twins", "twin_battle"),
             ("Observe more", "twin_observation")
         ],
-        background="twin_traces.jpg"
+        background="forest"
     ),
 
     "twin_battle": StoryNode(
@@ -92,8 +91,7 @@ story_content = {
             ("Continue", "twin_aftermath"),
             ("Proceed", "twin_aftermath")
         ],
-        background="engkanto_twins.jpg",
-        boss="Engkanto Twins"
+        background="twin"
     ),
 
     "twin_aftermath": StoryNode(
@@ -123,8 +121,7 @@ story_content = {
             ("Study waters", "lake_study"),
             ("Retreat", "lake_retreat")
         ],
-        background="lawa_background.jpg",
-        dimension="Lawa ng Walang Hanggan"
+        background="lake"
     ),
 
     "guardian_check": StoryNode(
@@ -133,7 +130,7 @@ story_content = {
             ("Fight anyway", "abyss_battle"),
             ("Retreat to train", "lake_retreat")
         ],
-        background="lake/guardian_presence.jpg"
+        background="lake"
     ),
 
     "lake_retreat": StoryNode(
@@ -142,7 +139,7 @@ story_content = {
             ("Return to village", "luntiang_kanlungan"),
             ("Train nearby", "lakeside_training")
         ],
-        background="lake/shore_retreat.jpg"
+        background="lake"
     ),
 
     "lake_study": StoryNode(
@@ -151,7 +148,7 @@ story_content = {
             ("Practice time magic", "time_magic"),
             ("Seek Guardian", "guardian_search")
         ],
-        background="time_waters.jpg"
+        background="lake"
     ),
 
     "time_magic": StoryNode(
@@ -160,7 +157,7 @@ story_content = {
             ("Master time", "time_mastery"),
             ("Face Guardian", "abyss_battle")
         ],
-        background="time_practice.jpg"
+        background="lake"
     ),
 
     "guardian_search": StoryNode(
@@ -169,7 +166,7 @@ story_content = {
             ("Confront Guardian", "abyss_battle"),
             ("Study more", "lake_study")
         ],
-        background="guardian_search.jpg"
+        background="lake"
     ),
 
     "abyss_battle": StoryNode(
@@ -178,8 +175,7 @@ story_content = {
             ("Continue", "abyss_aftermath"),
             ("Proceed", "abyss_aftermath")
         ],
-        background="dimensional_patterns.jpg",
-        boss="Guardian of the Abyss"
+        background="guardian"
     ),
 
     "abyss_aftermath": StoryNode(
@@ -188,8 +184,7 @@ story_content = {
             ("Face Dilim", "final_warning"),
             ("Final preparations", "preparation_choice")
         ],
-        background="time_portal.jpg",
-        dimension="Lawa ng Walang Hanggan"
+        background="lake"
     ),
 
     "final_warning": StoryNode(
@@ -198,7 +193,7 @@ story_content = {
             ("Fight anyway", "final_battle"),
             ("Prepare more", "preparation_choice")
         ],
-        background="final/warning.jpg"
+        background="final"
     ),
 
     "preparation_choice": StoryNode(
@@ -208,7 +203,7 @@ story_content = {
             ("Gather resources", "resource_gathering"),
             ("Study enemy", "dilim_research")
         ],
-        background="final/preparation.jpg"
+        background="final"
     ),
 
     # Final Dimension - The Convergence
@@ -218,8 +213,7 @@ story_content = {
             ("Face Dilim", "final_battle"),
             ("Final preparation", "ultimate_preparation")
         ],
-        background="bulkan_background.jpg",
-        dimension="The Convergence"
+        background="final"
     ),
 
     "final_battle": StoryNode(
@@ -228,8 +222,7 @@ story_content = {
             ("Continue", "final_aftermath"),
             ("Proceed", "final_aftermath")
         ],
-        background="chaos_energy.jpg",
-        boss="Corrupted Dilim"
+        background="dilim"
     ),
 
     "final_aftermath": StoryNode(
@@ -238,7 +231,7 @@ story_content = {
             ("Begin new journey", "start"),
             ("Continue watching", "start")
         ],
-        background="victory.jpg"
+        background="final"
     ),
 
     # Preparation and Training Nodes
@@ -248,8 +241,7 @@ story_content = {
             ("Basic training", "basic_training"),
             ("Study lore", "initial_research")
         ],
-        background="main/preparation.jpg",
-        items=["Basic Equipment"]
+        background="main"
     ),
 
     "basic_training": StoryNode(
@@ -258,8 +250,7 @@ story_content = {
             ("Combat training", "combat_training"),
             ("Magic practice", "magic_practice")
         ],
-        background="main/training_area.jpg",
-        items=["Basic Combat Scroll", "Magic Focus Crystal"]
+        background="main"
     ),
 
     "combat_training": StoryNode(
@@ -268,8 +259,7 @@ story_content = {
             ("Learn Power Strike", "power_strike_training"),
             ("Learn Defense", "defense_training")
         ],
-        background="main/combat_dojo.jpg",
-        items=["Power Strike Technique"]
+        background="main"
     ),
 
     "magic_practice": StoryNode(
@@ -278,8 +268,7 @@ story_content = {
             ("Learn Tech-Magic", "techno_magic"),
             ("Study Ancient Code", "code_magic")
         ],
-        background="main/magic_study.jpg",
-        items=["Tech-Magic Manual"]
+        background="tech"
     ),
 
     "lake_preparation": StoryNode(
@@ -288,7 +277,7 @@ story_content = {
             ("Study time magic", "time_study"),
             ("Enter lake", "lake_entrance")
         ],
-        background="lake_shore.jpg"
+        background="lake"
     ),
 
     "final_preparation": StoryNode(
@@ -297,7 +286,7 @@ story_content = {
             ("Power meditation", "power_focus"),
             ("Face destiny", "final_battle")
         ],
-        background="meditation.jpg"
+        background="final"
     ),
 
     "ultimate_preparation": StoryNode(
@@ -306,7 +295,7 @@ story_content = {
             ("Ready", "final_battle"),
             ("Meditate more", "power_focus")
         ],
-        background="ultimate_prep.jpg"
+        background="final"
     ),
 
     "advanced_training": StoryNode(
@@ -315,7 +304,7 @@ story_content = {
             ("Enter forest", "sacred_grove"),
             ("Perfect skills", "skill_mastery")
         ],
-        background="advanced_training.jpg"
+        background="main"
     ),
 
     "initial_research": StoryNode(
@@ -371,8 +360,7 @@ story_content = {
             ("Learn Tech-Magic", "techno_magic"),
             ("Study Ancient Code", "code_magic")
         ],
-        background="main/magic_study.jpg",
-        items=["Tech-Magic Manual"]
+        background="tech"
     ),
 
     "twin_observation": StoryNode(
@@ -431,8 +419,7 @@ story_content = {
             ("Help villagers", "village_quests"),
             ("Visit shops", "village_shops")
         ],
-        background="diwata_village.jpg",
-        dimension="Bayan ng Diwata"
+        background="village"
     ),
 
     "village_training": StoryNode(
@@ -442,7 +429,7 @@ story_content = {
             ("Magic studies", "advanced_magic"),
             ("Return to village", "luntiang_kanlungan")
         ],
-        background="forest/training_grounds.jpg"
+        background="village"
     ),
 
     "village_quests": StoryNode(
@@ -606,7 +593,7 @@ story_content = {
             ("Buy potions", "buy_potions"),
             ("Return to shops", "village_shops")
         ],
-        background="forest/potion_shop.jpg"
+        background="village"
     ),
 
     "equipment_shop": StoryNode(
@@ -616,7 +603,7 @@ story_content = {
             ("View armor", "armor_shop"),
             ("Return to shops", "village_shops")
         ],
-        background="forest/equipment_shop.jpg"
+        background="village"
     ),
 
     "village_help": StoryNode(
@@ -891,7 +878,7 @@ story_content = {
             ("Buy more", "potion_shop"),
             ("Return to shops", "village_shops")
         ],
-        background="forest/alchemy_shop.jpg"
+        background="village/alchemy_shop.jpg"
     ),
 
     # Village/Quest Related Nodes
@@ -1117,8 +1104,7 @@ story_content = {
             ("Basic training", "basic_training"),
             ("Study lore", "initial_research")
         ],
-        background="main/preparation.jpg",
-        items=["Basic Equipment"]
+        background="main"
     ),
 
     "deep_research": StoryNode(
@@ -1262,7 +1248,7 @@ story_content = {
             ("Buy armor", "armor_shop"),
             ("Return", "village_shops")
         ],
-        background="forest/equipment_shop.jpg"
+        background="village/equipment_shop.jpg"
     ),
 
     # Lake/Time Nodes
@@ -1417,7 +1403,7 @@ story_content = {
             ("Magic training", "advanced_magic"),
             ("Return", "luntiang_kanlungan")
         ],
-        background="forest/village_training.jpg"
+        background="village/village_training.jpg"
     ),
 
     "village_return": StoryNode(
@@ -1437,7 +1423,7 @@ story_content = {
             ("Potion shop", "potion_shop"),
             ("Return", "luntiang_kanlungan")
         ],
-        background="forest/village_shops.jpg"
+        background="village/village_shops.jpg"
     ),
 
     "power_focus": StoryNode(
@@ -1622,7 +1608,7 @@ story_content = {
             ("Purchase", "confirm_purchase"),
             ("Return", "potion_shop")
         ],
-        background="forest/potion_shop.jpg"
+        background="village/potion_shop.jpg"
     ),
 
     # Combat/Battle Nodes
@@ -1673,7 +1659,7 @@ story_content = {
             ("Buy more", "buy_potions"),
             ("Return", "village_shops")
         ],
-        background="forest/shop_purchase.jpg"
+        background="village/shop_purchase.jpg"
     ),
 
     "techno_magic": StoryNode(
@@ -1894,7 +1880,7 @@ story_content = {
             ("Buy armor", "armor_shop"),
             ("Return", "village_shops")
         ],
-        background="forest/equipment_shop.jpg"
+        background="village/equipment_shop.jpg"
     ),
 
     "potion_shop": StoryNode(
@@ -1903,7 +1889,7 @@ story_content = {
             ("Browse potions", "buy_potions"),
             ("Return", "village_shops")
         ],
-        background="forest/potion_shop.jpg"
+        background="village/potion_shop.jpg"
     ),
 
     # Final Battle Related Nodes
@@ -1960,51 +1946,48 @@ story_content = {
 }
 
 # Update all background paths to use existing images
-def update_backgrounds():
+def update_all_backgrounds():
+    """Update all node backgrounds to use correct identifiers"""
     for node in story_content.values():
         # Main/Starting areas
-        if "main/" in node.background:
-            node.background = "start.jpg"
+        if "start" in node.text.lower():
+            node.background = "main"
             
         # Forest/Grove areas
-        elif "forest/" in node.background:
-            node.background = random.choice([
-                "diwata_forest.jpg",
-                "forest_structures.jpg",
-                "sacred_grove.jpg",
-                "unstable_forest.jpg"
-            ])
+        elif "forest" in node.text.lower() or "grove" in node.text.lower():
+            node.background = "forest"
             
         # Lake/Water areas
-        elif "lake/" in node.background:
-            node.background = "lawa_background.jpg"
+        elif "lake" in node.text.lower() or "water" in node.text.lower():
+            node.background = "lake"
             
         # Tech/Terminal areas
-        elif "tech/" in node.background:
-            node.background = random.choice([
-                "magical_terminal.jpg",
-                "terminal_active.jpg",
-                "digital_awakening.jpg"
-            ])
+        elif "tech" in node.text.lower() or "terminal" in node.text.lower():
+            node.background = "tech"
+            
+        # Village areas
+        elif "village" in node.text.lower():
+            node.background = "village"
             
         # Boss battles
-        elif "bosses/" in node.background:
-            if "twin" in node.background:
-                node.background = "engkanto_twins.jpg"
-            elif "guardian" in node.background:
-                node.background = "dimensional_patterns.jpg"
-            elif "dilim" in node.background:
-                node.background = "chaos_energy.jpg"
-            elif "tikbalang" in node.background:
-                node.background = "molten_tikbalang.jpg"
-                
-        # Ritual/Cleansing areas
-        elif "ritual" in node.background:
-            node.background = "ritual_clearing.jpg"
+        elif "twin" in node.text.lower():
+            node.background = "twin"
+        elif "guardian" in node.text.lower():
+            node.background = "guardian"
+        elif "dilim" in node.text.lower():
+            node.background = "dilim"
             
-        # Default/Fallback
+        # Ritual areas
+        elif "ritual" in node.text.lower():
+            node.background = "ritual"
+            
+        # Final areas
+        elif "final" in node.text.lower():
+            node.background = "final"
+            
+        # Default
         else:
-            node.background = "ancestral_memories.jpg"
+            node.background = "main"
 
-# Apply the updates
-update_backgrounds()
+# Run the update
+update_all_backgrounds()

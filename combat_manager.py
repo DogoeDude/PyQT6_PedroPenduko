@@ -16,7 +16,7 @@ class Enemy:
 class CombatManager:
     def __init__(self, player):
         self.player = player
-        self.current_enemy: Optional[Enemy] = None
+        self.current_enemy = None
         
         self.enemies = {
             "Engkanto Twins": Enemy(
@@ -65,8 +65,18 @@ class CombatManager:
     def start_combat(self, enemy_name: str) -> str:
         """Start combat with an enemy, returns initial combat message"""
         if enemy_name in self.enemies:
-            self.current_enemy = self.enemies[enemy_name]
-            return f"Combat started with {enemy_name}!"
+            enemy_template = self.enemies[enemy_name]
+            self.current_enemy = Enemy(
+                name=enemy_template.name,
+                hp=enemy_template.hp,
+                max_hp=enemy_template.max_hp,
+                attack=enemy_template.attack,
+                defense=enemy_template.defense,
+                exp_reward=enemy_template.exp_reward,
+                item_drop=enemy_template.item_drop,
+                special_moves=enemy_template.special_moves
+            )
+            return f"Combat started with {enemy_name}! HP: {self.current_enemy.hp}/{self.current_enemy.max_hp}"
         return "Enemy not found!"
     
     def player_attack(self) -> str:
