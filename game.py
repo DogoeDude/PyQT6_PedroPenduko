@@ -40,7 +40,7 @@ class StoryGame(QMainWindow):
             ],
             'village': [
                 "diwata_village.jpg",
-                "ancestral_memories.jpg"
+                "ancestral_memories.png"
             ],
             'final': [
                 "bulkan_background.jpg",
@@ -80,7 +80,7 @@ class StoryGame(QMainWindow):
             "ui": os.path.join(self.image_folder, "ui"),
             "root": self.image_folder  # Add root folder for direct images
         }
-        self.default_image = "ancestral_memories.jpg"
+        self.default_image = "ancestral_memories.png"
         
         # Initialize audio manager
         self.audio = AudioManager()

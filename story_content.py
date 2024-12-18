@@ -2004,7 +2004,7 @@ def update_backgrounds():
             
         # Default/Fallback
         else:
-            node.background = "ancestral_memories.jpg"
+            node.background = "ancestral_memories.png"
 
 # Apply the updates
 update_backgrounds()
