@@ -70,9 +70,17 @@ class StoryGame(QMainWindow):
             "Molten Tikbalang": "molten_tikbalang.jpg"
         }
         
-        # Image handling - SIMPLIFIED
-        self.image_folder = "images"  # Just one folder for all images
-        self.default_image = "ancestral_memories.png"
+        # Image handling
+        self.image_folder = "images"
+        self.image_folders = {
+            "main": os.path.join(self.image_folder, "main"),
+            "forest": os.path.join(self.image_folder, "forest"),
+            "lake": os.path.join(self.image_folder, "lake"),
+            "final": os.path.join(self.image_folder, "final"),
+            "ui": os.path.join(self.image_folder, "ui"),
+            "root": self.image_folder  # Add root folder for direct images
+        }
+        self.default_image = "ancestral_memories.jpg"
         
         # Initialize audio manager
         self.audio = AudioManager()

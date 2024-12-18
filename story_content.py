@@ -1987,7 +1987,7 @@ def update_all_backgrounds():
             
         # Default
         else:
-            node.background = "main"
+            node.background = "ancestral_memories.jpg"
 
 # Run the update
 update_all_backgrounds()
